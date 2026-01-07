@@ -16,11 +16,6 @@ from pydub import AudioSegment
 from io import BytesIO
 
 
-# ============================================================================
-# FFMPEG CONFIGURATION (Windows)
-# ============================================================================
-# Set FFmpeg paths for pydub audio processing
-# Adjust these paths if your FFmpeg installation is in a different location
 FFMPEG_PATH = r"C:\Cffmpeg\ffmpeg-8.0.1-essentials_build\bin\ffmpeg.exe"
 FFPROBE_PATH = r"C:\Cffmpeg\ffmpeg-8.0.1-essentials_build\bin\ffprobe.exe"
 
@@ -28,22 +23,17 @@ if os.path.exists(FFMPEG_PATH):
     AudioSegment.converter = FFMPEG_PATH
     AudioSegment.ffprobe = FFPROBE_PATH
 else:
-    print(f"⚠️  Warning: FFmpeg not found at {FFMPEG_PATH}")
-    print("   Audio recording may not work. Please install FFmpeg.")
+    print(f"Warning: FFmpeg not found at {FFMPEG_PATH}")
+    print("Audio recording may not work. Please install FFmpeg.")
 
 
-# ============================================================================
-# LOGGING CONFIGURATION
-# ============================================================================
+
 logging.basicConfig(
     level=logging.INFO,
     format="[%(levelname)s] %(message)s"
 )
 
 
-# ============================================================================
-# MAIN FUNCTIONS - Use these in your application
-# ============================================================================
 
 def record_audio(mp3_path="patient_voice.mp3", record_seconds=6, mic_index=None):
     """
@@ -70,9 +60,9 @@ def record_audio(mp3_path="patient_voice.mp3", record_seconds=6, mic_index=None)
             logging.info("🎤 Adjusting for ambient noise... Please wait.")
             recognizer.adjust_for_ambient_noise(source, duration=1)
 
-            logging.info(f"🔴 Recording for {record_seconds} seconds... Start speaking now!")
+            logging.info(f"Recording for {record_seconds} seconds... Start speaking now!")
             audio = recognizer.record(source, duration=record_seconds)
-            logging.info("✅ Recording complete.")
+            logging.info("Recording complete.")
 
         # Convert WAV bytes to MP3 format
         wav_bytes = audio.get_wav_data()
@@ -84,7 +74,7 @@ def record_audio(mp3_path="patient_voice.mp3", record_seconds=6, mic_index=None)
         return audio
 
     except Exception as e:
-        logging.error(f"❌ Recording error: {e}")
+        logging.error(f"Recording error: {e}")
         return None
 
 
@@ -103,15 +93,15 @@ def speech_to_text(audio, language="en-US"):
     
     try:
         text = recognizer.recognize_google(audio, language=language)
-        logging.info(f"📝 Transcription: {text}")
+        logging.info(f"Transcription: {text}")
         return text
         
     except sr.UnknownValueError:
-        logging.warning("⚠️  Could not understand audio - please speak clearly")
+        logging.warning("Could not understand audio - please speak clearly")
         return "[Could not understand audio]"
         
     except sr.RequestError as e:
-        logging.error(f"❌ Recognition service error: {e}")
+        logging.error(f"Recognition service error: {e}")
         return f"[Recognition service error: {e}]"
 
 
@@ -137,7 +127,7 @@ def convert_audio_file_to_text(audio_filepath, language="en-US"):
     # Validate file exists
     if not os.path.exists(audio_filepath):
         error_msg = f"[Error: Audio file not found: {audio_filepath}]"
-        logging.error(f"❌ {error_msg}")
+        logging.error(f"{error_msg}")
         return error_msg
     
     try:
@@ -164,21 +154,21 @@ def convert_audio_file_to_text(audio_filepath, language="en-US"):
         
         # Convert to text
         text = recognizer.recognize_google(audio_data, language=language)
-        logging.info(f"📝 Transcription: {text}")
+        logging.info(f"Transcription: {text}")
         return text
     
     except sr.UnknownValueError:
-        logging.warning("⚠️  Could not understand audio - please speak clearly")
+        logging.warning("Could not understand audio - please speak clearly")
         return "[Could not understand audio]"
         
     except sr.RequestError as e:
         error_msg = f"[Recognition service error: {e}]"
-        logging.error(f"❌ {error_msg}")
+        logging.error(f"{error_msg}")
         return error_msg
         
     except Exception as e:
         error_msg = f"[Error processing audio file: {e}]"
-        logging.error(f"❌ {error_msg}")
+        logging.error(f"{error_msg}")
         return error_msg
 
 
@@ -203,17 +193,15 @@ def record_and_transcribe(mp3_path="patient_voice.mp3", record_seconds=6, mic_in
         return "[Recording failed]"
 
 
-# ============================================================================
-# TESTING / EXAMPLE USAGE
-# ============================================================================
+
 
 if __name__ == "__main__":
     print("\n" + "="*60)
-    print("🎙️  VOICE OF THE PATIENT - TEST MODE")
+    print("VOICE OF THE PATIENT - TEST MODE")
     print("="*60 + "\n")
     
     # Test 1: Record and transcribe
-    print("📌 Test 1: Recording and transcribing...")
+    print("Test 1: Recording and transcribing...")
     audio_obj = record_audio(
         mp3_path="patient_voice_test.mp3",
         record_seconds=5,
@@ -222,9 +210,9 @@ if __name__ == "__main__":
 
     if audio_obj:
         transcribed_text = speech_to_text(audio_obj)
-        print(f"\n✅ Result: {transcribed_text}\n")
+        print(f"\nResult: {transcribed_text}\n")
     else:
-        print("\n❌ Recording failed\n")
+        print("\nRecording failed\n")
     
     print("="*60)
     print("🏁 Test complete")
