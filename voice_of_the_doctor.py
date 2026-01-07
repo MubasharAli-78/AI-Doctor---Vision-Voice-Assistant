@@ -14,9 +14,6 @@ from gtts import gTTS
 import pyttsx3
 
 
-# ============================================================================
-# MAIN TTS FUNCTIONS - Use these in your application
-# ============================================================================
 
 def text_to_speech_with_gtts(input_text, output_filepath="doctor_response.mp3", auto_play=False):
     """
@@ -93,9 +90,6 @@ def text_to_speech_with_pyttsx3(input_text, output_filepath="doctor_response.mp3
         raise
 
 
-# ============================================================================
-# HELPER FUNCTIONS
-# ============================================================================
 
 def _play_audio(audio_filepath):
     """
@@ -130,9 +124,7 @@ def _play_audio(audio_filepath):
         raise
 
 
-# ============================================================================
-# TESTING / EXAMPLE USAGE
-# ============================================================================
+
 
 if __name__ == "__main__":
     # Test with sample text
@@ -141,15 +133,15 @@ if __name__ == "__main__":
     print("\n=== Testing gTTS ===")
     try:
         text_to_speech_with_gtts(test_text, "test_gtts.mp3", auto_play=False)
-        print("✅ gTTS test successful")
+        print("gTTS test successful")
     except Exception as e:
-        print(f"❌ gTTS test failed: {e}")
+        print(f" gTTS test failed: {e}")
     
     print("\n=== Testing pyttsx3 ===")
     try:
         text_to_speech_with_pyttsx3(test_text, "test_pyttsx3.mp3", auto_play=False)
-        print("✅ pyttsx3 test successful")
+        print("pyttsx3 test successful")
     except Exception as e:
-        print(f"❌ pyttsx3 test failed: {e}")
+        print(f" pyttsx3 test failed: {e}")
     
     print("\n=== All tests complete ===")
