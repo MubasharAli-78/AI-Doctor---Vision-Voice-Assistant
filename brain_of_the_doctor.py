@@ -13,19 +13,13 @@ from dotenv import load_dotenv
 from google import genai
 from PIL import Image
 
-
-# ============================================================================
-# ENVIRONMENT SETUP
-# ============================================================================
-
-# Load environment variables from .env file
 load_dotenv()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 if not GOOGLE_API_KEY or GOOGLE_API_KEY == "your_google_api_key_here":
     raise ValueError(
-        "❌ GOOGLE_API_KEY is missing or not set!\n"
+        "GOOGLE_API_KEY is missing or not set!\n"
         "Please add your Google API key to the .env file:\n"
         "   GOOGLE_API_KEY=your_actual_api_key_here\n\n"
         "Get your API key from: https://ai.google.dev/"
@@ -35,9 +29,6 @@ if not GOOGLE_API_KEY or GOOGLE_API_KEY == "your_google_api_key_here":
 client = genai.Client(api_key=GOOGLE_API_KEY)
 
 
-# ============================================================================
-# MAIN FUNCTION - Use this in your application
-# ============================================================================
 
 def query_llm_with_image(query, image_path, model="gemini-2.5-flash"):
     """
@@ -66,7 +57,7 @@ def query_llm_with_image(query, image_path, model="gemini-2.5-flash"):
     """
     # Validate image exists
     if not os.path.exists(image_path):
-        raise FileNotFoundError(f"❌ Image not found: {image_path}")
+        raise FileNotFoundError(f"Image not found: {image_path}")
     
     # List of models to try (in order of preference)
     models_to_try = [model, "gemini-2.5-flash", "gemini-1.5-pro"]
@@ -87,7 +78,7 @@ def query_llm_with_image(query, image_path, model="gemini-2.5-flash"):
             
             # Extract and return text response
             response_text = response.text
-            print(f"✅ Response received ({len(response_text)} characters)")
+            print(f"Response received ({len(response_text)} characters)")
             
             return response_text
             
@@ -101,11 +92,11 @@ def query_llm_with_image(query, image_path, model="gemini-2.5-flash"):
                 continue  # Try next model
             else:
                 # For other errors, raise immediately
-                print(f"❌ API Error with {attempt_model}: {e}")
+                print(f"API Error with {attempt_model}: {e}")
                 raise Exception(f"Failed to query LLM: {e}")
     
     # If all models failed
-    print(f"❌ All models failed. Last error: {last_error}")
+    print(f"All models failed. Last error: {last_error}")
     raise Exception(
         f"Failed to query LLM with all models. Last error: {last_error}\n\n"
         f"💡 Suggestions:\n"
@@ -113,11 +104,7 @@ def query_llm_with_image(query, image_path, model="gemini-2.5-flash"):
         f"2. Wait a few minutes and try again\n"
         f"3. Consider upgrading your API plan at: https://ai.google.dev/pricing"
     )
-
-
-# ============================================================================
-# TESTING / EXAMPLE USAGE
-# ============================================================================
+    
 
 if __name__ == "__main__":
     print("\n" + "="*60)
@@ -139,7 +126,7 @@ if __name__ == "__main__":
             print(f"\n📋 AI Doctor's Response:\n")
             print(result)
         except Exception as e:
-            print(f"\n❌ Test failed: {e}")
+            print(f"\nTest failed: {e}")
     else:
         print(f"⚠️  Test image not found: {test_image}")
         print("   Please place a test image in the project directory to run the test.")
