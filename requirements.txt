@@ -1,0 +1,9 @@
+python-dotenv
+google-genai
+gradio
+pillow
+gtts
+pyttsx3
+pypiwin32
+SpeechRecognition
+pydub
